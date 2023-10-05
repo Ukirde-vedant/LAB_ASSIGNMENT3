@@ -212,18 +212,43 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
-        String first = firstNameTextField.getText();
-        String last = lastNameTextField.getText();
-        String email = emailTextField.getText();
-        String age = ageTextField2.getText();
-        String type = typeDropdown.getSelectedItem().toString();
-        String gender = genderGroup.getSelection().getActionCommand();
-        
-        System.out.println(first+" "+last+" "+email+" "+age+" "+gender+" "+type);
-        
-        JOptionPane.showMessageDialog(this, first+" "+last+" "+email+" "+age+" "+gender+" "+type, "USER INFORmation" , HEIGHT);
-    }//GEN-LAST:event_submitButtonActionPerformed
+    String first = firstNameTextField.getText();
+    String last = lastNameTextField.getText();
+    String email = emailTextField.getText();
+    String age = ageTextField2.getText();
+    String gender = "";
 
+    if (maleRadio.isSelected()) {
+        gender = maleRadio.getActionCommand();
+    } else if (femaleRadio.isSelected()) {
+        gender = femaleRadio.getActionCommand();
+    } else if (notMentionedRadio.isSelected()) {
+        gender = notMentionedRadio.getActionCommand();
+    }
+
+    String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+    if (!email.matches(emailRegex)) {
+        JOptionPane.showMessageDialog(this, "Invalid email address", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        return; 
+    }
+    try {
+        int ageValue = Integer.parseInt(age);
+        if (ageValue <= 0) {
+            JOptionPane.showMessageDialog(this, "Age must be a positive number", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Invalid age format", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    if (first.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "First name cannot be empty");
+    } else if (last.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Last name cannot be empty");
+    } else {
+        JOptionPane.showMessageDialog(this, "Registration successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+    }
     private void lastNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastNameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_lastNameTextFieldActionPerformed
